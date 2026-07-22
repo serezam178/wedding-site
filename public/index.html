@@ -489,14 +489,22 @@
     }, { threshold: 0.1 });
     document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
 
-    // ─── Parallax on Hero ───
+    // ─── Parallax on Hero (Оптимизировано от лагов) ───
+    const heroBg = document.getElementById('heroBg');
+    let ticking = false;
+
     window.addEventListener('scroll', () => {
-        const scrolled = window.scrollY;
-        const heroBg = document.getElementById('heroBg');
-        if (heroBg && scrolled < window.innerHeight) {
-            heroBg.style.transform = `translateY(${scrolled * 0.4}px)`;
+        if (!ticking) {
+            window.requestAnimationFrame(() => {
+                const scrolled = window.scrollY;
+                if (heroBg && scrolled < window.innerHeight) {
+                    heroBg.style.transform = `translate3d(0, ${scrolled * 0.4}px, 0)`;
+                }
+                ticking = false;
+            });
+            ticking = true;
         }
-    });
+    }, { passive: true });
 
     // ─── Canvas Particles (Golden dust) ───
     const canvas = document.getElementById('particles-canvas');
