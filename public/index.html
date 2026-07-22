@@ -115,6 +115,7 @@
             text-transform: uppercase;
             letter-spacing: 1px;
             transition: all 0.3s;
+            cursor: pointer;
         }
         .btn-calendar:hover {
             background: rgba(255, 255, 255, 0.9);
@@ -178,7 +179,7 @@
             position: relative;
             max-width: 700px;
             margin: 40px auto 0 auto;
-            padding-left: 30px;
+            padding-left: 30px; /* Fixed geometry */
             text-align: left;
             border-left: 2px solid var(--accent-sage);
         }
@@ -189,7 +190,7 @@
         .timeline-item:last-child { margin-bottom: 0; }
         .timeline-dot {
             position: absolute;
-            left: -39px;
+            left: -39px; /* Fixed offset aligned with 30px padding + 2px border */
             top: 2px;
             width: 16px;
             height: 16px;
@@ -262,14 +263,6 @@
             transition: all .3s ease; text-transform: uppercase; letter-spacing: 1.5px;
         }
         .btn-map:hover { background: var(--accent-gold); color: #fff; }
-        .btn-taxi {
-            display: inline-flex; align-items: center; justify-content: center;
-            width: 100%; padding: 12px; border-radius: 12px;
-            background: var(--bg-alt); color: var(--text-main);
-            text-decoration: none; font-size: .8rem; font-weight: 500;
-            transition: all .2s; border: 1px solid rgba(0,0,0,0.05);
-        }
-        .btn-taxi:hover { background: var(--accent-sage-light); }
 
         /* ─── Reminders ─── */
         .reminders-grid {
@@ -451,6 +444,7 @@
             text-align: center;
         }
 
+        /* Fixed Mobile Media Query */
         @media (max-width: 480px) {
             .section { padding: 50px 20px; }
             .hero-names { font-size: 4rem; }
@@ -458,7 +452,7 @@
             .timer-grid { gap: 8px; }
             .location-card { padding: 24px; }
             .rsvp-form { padding: 24px; }
-            .timeline { padding-left: 20px; }
+            /* The .timeline padding-left is NO LONGER overwritten here, so geometry stays perfectly aligned on mobile */
         }
     </style>
 </head>
@@ -471,8 +465,8 @@
         <div class="hero-names">Даниил & Ася</div>
         <div class="hero-date">30 Июля 2026</div>
 
-        <!-- Add to Google Calendar -->
-        <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Свадьба+Даниила+и+Аси&dates=20260730T120000Z/20260730T200000Z&details=Ждём+вас+на+нашей+свадьбе!&location=г.+Новосибирск,+СНТ+Облепиха,+Проточная+улица,+29" target="_blank" class="btn-calendar">
+        <!-- Smart Add to Calendar Button -->
+        <a id="calendarBtn" href="#" class="btn-calendar">
             📅 Добавить в Календарь
         </a>
     </div>
@@ -551,7 +545,6 @@
                 </div>
                 <div class="btn-group">
                     <a href="https://yandex.ru/maps/?text=Новосибирск+СНТ+Облепиха+Проточная+29" target="_blank" class="btn-map">Открыть на карте</a>
-                    <a href="https://3.redirect.appmetrica.yandex.com/route?end-lat=54.98&end-lon=82.89&ref=yandex" target="_blank" class="btn-taxi">🚕 Вызвать Яндекс.Такси</a>
                 </div>
             </div>
             <div class="location-card">
@@ -563,7 +556,6 @@
                 </div>
                 <div class="btn-group">
                     <a href="https://yandex.ru/maps" target="_blank" class="btn-map">Открыть на карте</a>
-                    <a href="https://3.redirect.appmetrica.yandex.com" target="_blank" class="btn-taxi">🚕 Вызвать Яндекс.Такси</a>
                 </div>
             </div>
         </div>
@@ -695,6 +687,37 @@
 <div class="toast" id="toast"></div>
 
 <script>
+    // ─── Smart Calendar Button Logic ───
+    document.addEventListener("DOMContentLoaded", function() {
+        const btn = document.getElementById("calendarBtn");
+        // Check if user is on iOS (iPhone/iPad/iPod)
+        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+        
+        if (isIOS) {
+            // Generate standard .ics file data for Apple Calendar
+            const icsContent = `BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Svadba//AsyaDaniil//EN
+BEGIN:VEVENT
+DTSTART:20260730T120000Z
+DTEND:20260730T200000Z
+SUMMARY:Свадьба Даниила и Аси
+LOCATION:г. Новосибирск, СНТ Облепиха, Проточная улица, 29
+DESCRIPTION:Ждём вас на нашей свадьбе!
+END:VEVENT
+END:VCALENDAR`;
+            
+            // For iOS, downloading a data URI with text/calendar prompts Apple Calendar to open it
+            btn.href = "data:text/calendar;charset=utf8," + encodeURIComponent(icsContent);
+            // Optionally add download attribute so it saves as a file
+            btn.setAttribute("download", "wedding_asya_daniil.ics");
+        } else {
+            // Android / Desktop -> Default to Google Calendar Web URL
+            btn.href = "https://calendar.google.com/calendar/render?action=TEMPLATE&text=Свадьба+Даниила+и+Аси&dates=20260730T120000Z/20260730T200000Z&details=Ждём+вас+на+нашей+свадьбе!&location=г.+Новосибирск,+СНТ+Облепиха,+Проточная+улица,+29";
+            btn.target = "_blank";
+        }
+    });
+
     // ─── Fade-in ───
     const observer = new IntersectionObserver((entries, obs) => {
         entries.forEach(e => {
