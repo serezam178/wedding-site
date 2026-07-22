@@ -456,10 +456,6 @@
 <div class="toast" id="toast"></div>
 
 <script>
-    // ─── Настройки Telegram Бота (ВВЕДИ СВОИ ДАННЫЕ СЮДА) ───
-    const TELEGRAM_BOT_TOKEN = 'ТВОЙ_ТОКЕН_ЗДЕСЬ';
-    const TELEGRAM_CHAT_ID = 'ТВОЙ_CHAT_ID_ЗДЕСЬ';
-
     // ─── Scroll Progress Bar Logic ───
     window.addEventListener('scroll', () => {
         const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
@@ -591,26 +587,14 @@
         btn.disabled = true; 
         btn.textContent = 'Отправляем...';
 
-        // Сообщение для Телеграма
-        const message = `🔔 *Новая заявка на свадьбу!*\n\n*Гость:* ${name}\n*Дни:* ${days.length ? days.join(', ') : 'Никакие'}\n*Напитки:* ${drinks}`;
-
         try {
-            // Если токен заполнен - отправляем в Телегу
-            if (TELEGRAM_BOT_TOKEN !== 'ТВОЙ_ТОКЕН_ЗДЕСЬ' && TELEGRAM_CHAT_ID !== 'ТВОЙ_CHAT_ID_ЗДЕСЬ') {
-                const res = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ 
-                        chat_id: TELEGRAM_CHAT_ID, 
-                        text: message, 
-                        parse_mode: 'Markdown' 
-                    }),
-                });
-                if (!res.ok) throw new Error('Ошибка при отправке в Telegram');
-            } else {
-                // Имитируем загрузку, если токен еще не ввели, чтобы дизайн всё равно работал
-                await new Promise(r => setTimeout(r, 800));
-            }
+            const res = await fetch('/api/rsvp', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name, days, drinks }),
+            });
+            
+            if (!res.ok) throw new Error('Ошибка сервера');
 
             // Успех
             showToast('Спасибо! Ваш ответ отправлен ✨', 'success');

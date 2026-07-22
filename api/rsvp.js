@@ -1,72 +1,44 @@
-// api/rsvp.js — Vercel Serverless Function
-// Получает данные из формы и отправляет сообщение в Telegram бот
-
 export default async function handler(req, res) {
-  // Только POST запросы
   if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' });
+    return res.status(405).json({ message: 'Method Not Allowed' });
   }
 
-  // Переменные из Vercel Environment (добавь в Settings → Environment Variables)
-  const BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN; // Токен от @BotFather
-  const CHAT_ID   = process.env.TELEGRAM_CHAT_ID;   // ID чата или твой личный ID
-
-  if (!BOT_TOKEN || !CHAT_ID) {
-    console.error('Missing TELEGRAM_BOT_TOKEN or TELEGRAM_CHAT_ID env vars');
-    return res.status(500).json({ error: 'Bot not configured' });
-  }
-
-  // Достаём данные из тела запроса
   const { name, days, drinks } = req.body;
-
+  
   if (!name) {
-    return res.status(400).json({ error: 'Name is required' });
+    return res.status(400).json({ message: 'Name is required' });
   }
 
-  // Форматируем сообщение для Telegram
-  const daysText = Array.isArray(days) && days.length > 0
-    ? days.join(', ')
-    : 'Не указано';
+  // Секретные ключи берутся из Environment Variables в Vercel
+  const botToken = process.env.TELEGRAM_BOT_TOKEN;
+  const chatId = process.env.TELEGRAM_CHAT_ID;
 
-  const message = [
-    '🎊 *Новая заявка на свадьбу!*',
-    '',
-    `👤 *Имя:* ${escapeMarkdown(name)}`,
-    `📅 *Дни:* ${escapeMarkdown(daysText)}`,
-    `🥂 *Напитки:* ${escapeMarkdown(drinks || 'Не указано')}`,
-    '',
-    '— _Сайт Даниила и Аси_',
-  ].join('\n');
+  if (!botToken || !chatId) {
+    // Если переменные в Vercel еще не заданы, возвращаем мок-ответ,
+    // чтобы анимации на сайте работали.
+    return res.status(200).json({ message: 'Mock success (Env vars not set)' });
+  }
+
+  const message = `🔔 *Новая заявка на свадьбу!*\n\n*Гость:* ${name}\n*Дни:* ${days && days.length ? days.join(', ') : 'Никакие'}\n*Напитки:* ${drinks || 'Не указано'}`;
 
   try {
-    const telegramUrl = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
-
-    const response = await fetch(telegramUrl, {
+    const response = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        chat_id:    CHAT_ID,
-        text:       message,
-        parse_mode: 'Markdown',
-      }),
+        chat_id: chatId,
+        text: message,
+        parse_mode: 'Markdown'
+      })
     });
 
-    const data = await response.json();
-
-    if (!data.ok) {
-      console.error('Telegram API error:', data);
-      return res.status(500).json({ error: 'Telegram error', details: data });
+    if (!response.ok) {
+      const errorData = await response.json();
+      return res.status(500).json({ message: 'Telegram API Error', details: errorData });
     }
 
-    return res.status(200).json({ success: true });
-
-  } catch (err) {
-    console.error('Network error:', err);
-    return res.status(500).json({ error: 'Network error' });
+    return res.status(200).json({ message: 'Success' });
+  } catch (error) {
+    return res.status(500).json({ message: 'Internal Server Error', error: error.message });
   }
-}
-
-// Экранируем спецсимволы Markdown для Telegram
-function escapeMarkdown(text) {
-  return String(text).replace(/([_*[\]()~`>#+\-=|{}.!])/g, '\\$1');
 }
