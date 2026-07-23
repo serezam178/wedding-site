@@ -371,7 +371,7 @@
                 <div class="btn-group"><a href="https://2gis.ru/novosibirsk/search/проточная%2029" target="_blank" class="btn-map">Открыть в 2ГИС</a></div>
             </div>
             <div class="location-card fade-in delay-2">
-                <div><span class="day-badge">День 2 • 31 Июля</span><h3>Афтерпати</h3><div class="location-time">⏰ Сбор: 16:00</div><div class="location-address">📍 г. Новосибирск, ул. Долинная, 20к1</div></div>
+                <div><span class="day-badge">День 2 • 1 Августа</span><h3>Афтерпати (Только для друзей)</h3><div class="location-time">⏰ Сбор: 16:00</div><div class="location-address">📍 г. Новосибирск, ул. Долинная, 20к1</div></div>
                 <div class="btn-group"><a href="https://2gis.ru/novosibirsk/search/долинная%2020%20к1" target="_blank" class="btn-map">Открыть в 2ГИС</a></div>
             </div>
         </div>
@@ -388,19 +388,6 @@
         </div>
     </section>
 
-    <!-- FAQ -->
-    <section class="section section-alt">
-        <h2 class="section-title fade-in">Вопросы и Ответы</h2>
-        <p class="section-subtitle fade-in delay-1">Ответы на самые частые вопросы гостей</p>
-        <div class="faq-wrapper">
-            <div class="faq-item fade-in delay-1"><div class="faq-question" onclick="toggleFAQ(this)"><span>Будет ли организован трансфер?</span><span class="faq-icon">▼</span></div><div class="faq-answer">Да! В 14:15 от станции метро «Площадь Ленина» будет отходить микроавтобус до места проведения банкета. Также вечером будет трансфер обратно.</div></div>
-            <div class="faq-item fade-in delay-2"><div class="faq-question" onclick="toggleFAQ(this)"><span>Можно ли прийти с детьми?</span><span class="faq-icon">▼</span></div><div class="faq-answer">Мы очень любим ваших деток, но наш праздник спланирован в формате «adults only», чтобы все взрослые могли расслабиться и потанцевать!</div></div>
-            <div class="faq-item fade-in delay-3"><div class="faq-question" onclick="toggleFAQ(this)"><span>Что брать с собой на 2-й день?</span><span class="faq-icon">▼</span></div><div class="faq-answer">Купальники, полотенце, удобную одежду для отдыха у бассейна и хорошее настроение! Всё остальное (еда, напитки, гриль) мы берём на себя.</div></div>
-        </div>
-        <div class="custom-shape-divider-bottom divider-white">
-            <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none"><path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V120H0V95.8C79.4,117.65,156.4,115.15,231.57,98.65A435.53,435.53,0,0,0,321.39,56.44Z" class="shape-fill"></path></svg>
-        </div>
-    </section>
 
     <!-- RSVP -->
     <section class="section" id="rsvp">
@@ -415,7 +402,7 @@
                 <label>На каких днях вы будете с нами?</label>
                 <div class="checkbox-group">
                     <label class="checkbox-label"><input type="checkbox" id="day1" value="30 июля" checked><span>30 июля — Торжество и банкет</span></label>
-                    <label class="checkbox-label"><input type="checkbox" id="day2" value="31 июля" checked><span>31 июля — Афтерпати на природе</span></label>
+                    <label class="checkbox-label"><input type="checkbox" id="day2" value="1 августа" checked><span>1 августа — Афтерпати на природе (Только для друзей)</span></label>
                 </div>
             </div>
             <div class="form-group">
@@ -563,8 +550,6 @@
         document.getElementById('seconds').innerText = Math.floor((initDiff % 60000) / 1000);
     }
 
-    // ─── FAQ Accordion ───
-    function toggleFAQ(element) { element.parentElement.classList.toggle('active'); }
 
     // ─── Toast & RSVP Form (Telegram Integration) ───
     function showToast(msg, type = '') {
