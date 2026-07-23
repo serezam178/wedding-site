@@ -451,11 +451,11 @@
         const btn = document.getElementById("calendarBtn");
         const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
         if (isIOS) {
-            const icsContent = `BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//Svadba//AsyaDaniil//EN\nBEGIN:VEVENT\nDTSTART:20260730T120000Z\nDTEND:20260730T200000Z\nSUMMARY:Свадьба Даниила и Аси\nLOCATION:г. Новосибирск, СНТ Облепиха, Проточная улица, 29\nDESCRIPTION:Ждём вас на нашей свадьбе!\nEND:VEVENT\nEND:VCALENDAR`;
+            const icsContent = `BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//Svadba//AsyaDaniil//EN\nBEGIN:VEVENT\nDTSTART:20260730T080000Z\nDTEND:20260730T160000Z\nSUMMARY:Свадьба Даниила и Аси\nLOCATION:г. Новосибирск, ул. Проточная, 29\nDESCRIPTION:Ждём вас на нашей свадьбе!\nEND:VEVENT\nEND:VCALENDAR`;
             btn.href = "data:text/calendar;charset=utf8," + encodeURIComponent(icsContent);
             btn.setAttribute("download", "wedding_asya_daniil.ics");
         } else {
-            btn.href = "https://calendar.google.com/calendar/render?action=TEMPLATE&text=Свадьба+Даниила+и+Аси&dates=20260730T120000Z/20260730T200000Z&details=Ждём+вас+на+нашей+свадьбе!&location=г.+Новосибирск,+СНТ+Облепиха,+Проточная+улица,+29";
+            btn.href = "https://calendar.google.com/calendar/render?action=TEMPLATE&text=Свадьба+Даниила+и+Аси&dates=20260730T080000Z/20260730T160000Z&details=Ждём+вас+на+нашей+свадьбе!&location=г.+Новосибирск,+ул.+Проточная,+29";
             btn.target = "_blank";
         }
     });
