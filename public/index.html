@@ -136,13 +136,15 @@
         /* ─── SVG Shape Dividers ─── */
         .custom-shape-divider-bottom {
             position: absolute;
-            bottom: -1px; left: 0; width: 100%;
+            bottom: -2px; left: 0; width: 100%;
             overflow: hidden; line-height: 0;
             z-index: 4;
         }
         .custom-shape-divider-bottom svg {
             position: relative; display: block;
-            width: 100%; height: 60px;
+            width: calc(100% + 4px);
+            margin-left: -2px;
+            height: 60px;
         }
         .custom-shape-divider-bottom .shape-fill { fill: var(--bg-color); }
         .divider-alt svg { height: 50px; }
