@@ -247,8 +247,8 @@
         .color-palette { display: flex; gap: 10px; margin-top: 20px; justify-content: center; }
         .color-dot { width: 30px; height: 30px; border-radius: 50%; box-shadow: inset 0 2px 6px rgba(0,0,0,.15); transition: transform .2s, box-shadow .2s; cursor: pointer; position: relative; }
         .color-dot::after { content: attr(data-color); position: absolute; bottom: -35px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.8); color: #fff; padding: 5px 10px; border-radius: 6px; font-size: 0.8rem; font-family: 'Montserrat', sans-serif; white-space: nowrap; opacity: 0; pointer-events: none; transition: opacity 0.3s; z-index: 10; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-        .color-dot:hover::after { opacity: 1; }
-        .color-dot:hover { transform: scale(1.2); box-shadow: 0 6px 15px rgba(188, 164, 116, 0.3); }
+        .color-dot:hover::after, .color-dot:active::after, .color-dot:focus::after { opacity: 1; }
+        .color-dot:hover, .color-dot:active, .color-dot:focus { transform: scale(1.2); box-shadow: 0 6px 15px rgba(188, 164, 116, 0.3); outline: none; }
 
         /* ─── FAQ ─── */
         .faq-wrapper { max-width: 750px; margin: 30px auto 0 auto; display: flex; flex-direction: column; gap: 16px; text-align: left; }
@@ -402,7 +402,7 @@
         <h2 class="section-title fade-in">Важные детали</h2>
         <p class="section-subtitle fade-in delay-1">Пара простых просьб для вашего и нашего комфорта</p>
         <div class="reminders-grid">
-            <div class="reminder-item fade-in delay-1"><div class="reminder-icon">🤍</div><div class="reminder-content"><h4>Дресс-код</h4><p>Пастельные или приглушенные тона — будем признательны!</p><div class="color-palette"><div class="color-dot" style="background:#F2E2BA" data-color="Песочный"></div><div class="color-dot" style="background:#EBBAB9" data-color="Пудровый"></div><div class="color-dot" style="background:#D4C4D7" data-color="Лиловый"></div><div class="color-dot" style="background:#C6D8E4" data-color="Небесный"></div><div class="color-dot" style="background:#CFE0C3" data-color="Мятный"></div></div></div></div>
+            <div class="reminder-item fade-in delay-1"><div class="reminder-icon">🤍</div><div class="reminder-content"><h4>Дресс-код</h4><p>Пастельные или приглушенные тона — будем признательны!</p><div class="color-palette"><div class="color-dot" style="background:#F2E2BA" data-color="Песочный" tabindex="0"></div><div class="color-dot" style="background:#EBBAB9" data-color="Пудровый" tabindex="0"></div><div class="color-dot" style="background:#D4C4D7" data-color="Лиловый" tabindex="0"></div><div class="color-dot" style="background:#C6D8E4" data-color="Небесный" tabindex="0"></div><div class="color-dot" style="background:#CFE0C3" data-color="Мятный" tabindex="0"></div></div></div></div>
             <div class="reminder-item fade-in delay-2"><div class="reminder-icon">🩰</div><div class="reminder-content"><h4>Сменная обувь</h4><p>Нас ждут танцы до утра! <strong>Возьмите тапочки или удобную сменку</strong> — пусть ваши ножки отдыхают.</p></div></div>
 
         </div>
